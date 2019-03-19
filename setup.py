@@ -15,7 +15,7 @@ setup(
     license='BSD License',
     description='Extensions for django-suit@v0.2.26',
     long_description=README,
-    url='https://github.com/kliyes',
+    url='https://github.com/kliyes/suit_extensions',
     author='Jing Yang',
     author_email='tom@kliyes.com',
     classifiers=[
