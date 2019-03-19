@@ -43,3 +43,6 @@ msgstr "删除所选项目"
 
 msgid "Total"
 msgstr "总共"
+
+msgid "Operations"
+msgstr "操作"

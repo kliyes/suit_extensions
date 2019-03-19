@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -15,9 +16,9 @@ class ExtensionModelAdminMixin(object):
 
 class OperationModelAdminMixin(object):
     list_display_links = None
-    edit_text = "EDIT"
-    delete_text = "DELETE"
-    operation_text = "OPERATIONS"
+    edit_text = _("Change")
+    delete_text = _("Delete")
+    operation_text = _("Operations")
 
     def get_operations(self, obj):
         edit_link = """<a href="{edit_url}">{edit_text}</a>""".format(
