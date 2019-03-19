@@ -33,6 +33,8 @@ suit_extensions是一个用于扩展及优化[django-suit](https://github.com/da
 
 ### admin class
 
+####ExtensionModelAdminMixin
+
 同时继承`ExtensionModelAdminMixin`和`ModelAdmin`
 
 ```python
@@ -64,6 +66,21 @@ admin.site.unregister(UserModel)
 admin.site.register(UserModel, MyUserAdmin)
 ```
 
+#### OperationModelAdminMixin
+
+在列表页面每一项最后增加一个操作列，包括编辑和删除按钮：
+
+```python
+from suit_extensions.mixins import OperationModelAdminMixin
+
+
+@admin.register(ExampleModel)
+class ExampleAdmin(OperationModelAdminMixin, admin.ModelAdmin):
+    edit_text = "编辑"
+    delete_text = "删除"
+    operation_text = "操作"
+```
+
 ### datepicker/timepicker
 
 `django`自带的日期/时间选择器十分不人性化，比如无法快速切换年份（只能逐月选择），`suit_extensions`使用`datepicker`和`timepicker`进行了重写，效果如下：
@@ -93,7 +110,9 @@ class UserAdminForm(forms.ModelForm):
         model = UserModel
         fields = "__all__"
         widgets = {
-            "last_login": DateTimePickerWidget(),
+            "last_login": DateTimePickerWidget(
+                datepicker_options={"orientation": "top"}
+            ),
             "date_joined": DateTimePickerWidget()
         }
 ```
