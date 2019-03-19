@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+{% load admin_static suit_tags %}
+
+{% block title %}{{ 'ADMIN_NAME'|suit_conf }}{% endblock %}
+
+{# Additional <head> content here, some extra meta tags or favicon #}
+{% block extrahead %}
+    <style type="text/css">.required:after { content: '*'; margin: 0 0 0 5px; position: absolute; color: red;}</style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $header = $("#header");
+            $header.scrollToFixed();
+            $("#left-nav").scrollToFixed({marginTop: $header.outerHeight()});
+        });
+    </script>
+    <style type="text/css">
+        div.selector-available select.filtered {height: 300px;}
+        div.selector-chosen select.filtered {height: 328px;}
+    </style>
+    <style type="text/css">
+        .form-horizontal .control-group .help-icon {
+            background: url("{% static 'admin/img/icon-unknown.svg' %}") 0 0 no-repeat;
+            display: inline-block;
+            vertical-align: middle;
+            margin: -2px 0 0 2px;
+            width: 13px;
+            height: 13px;
+        }
+        .search-label-icon {
+            background: url("{% static 'admin/img/search.svg' %}") 0 0 no-repeat;
+            display: inline-block;
+            height: 18px;
+            width: 18px;
+            vertical-align: middle;
+        }
+    </style>
+{% endblock %}
+
+{% block header_time %}
+    {{ block.super }}
+    <script>
+        window.onload = function(){
+            changeClock();
+        };
+        function changeClock()
+        {
+            var d = new Date();
+            var hour = d.getHours();
+            var sec = d.getSeconds();
+            var min = d.getMinutes();
+            if (hour<10){
+                hour="0" + hour
+            }
+            if (min<10){
+                min="0" + min
+            }
+            if (sec<10){
+                sec="0" + sec
+            }
+            document.getElementById("clock").innerHTML = hour + ":" + min + ":" + sec;
+        }
+        window.setInterval(changeClock, 1000);
+    </script>
+{% endblock %}
+
+
+{# Additional CSS includes #}
+{% block extrastyle %}
+{% endblock %}
+
+
+{# Additional JS files in footer, right before </body> #}
+{% block extrajs %}
+    <script type="text/javascript" src="{% static 'jquery/js/jquery-scrolltofixed.min.js' %}"></script>
+    <script type="text/javascript">
+        $.fn.suit_fixed = function () {
+            $(this).each(function () {
+                // extra_offset: 70 (60 Footer height + 10 top offset)
+                var $fixed_item = $(this), pos = $fixed_item.offset(), extra_offset = 70;
+                $(window).bind('scroll.sl resize.sl load.sl', function (e) {
+                    var $win = $(this), scroll_top = $win.scrollTop();
+                    if ($fixed_item.height() < $win.height() &&
+                        scroll_top > (pos.top - 10) &&
+                        $fixed_item.height() < $win.height()) {
+                        !$fixed_item.hasClass('fixed') && $fixed_item.addClass('fixed');
+                        // override Math.min(10, ...) in suit/js/suit.js
+                        var max_top = Math.min(50, $(document).height() - $fixed_item.height() - scroll_top - extra_offset);
+                        $fixed_item.css('top', max_top + 'px');
+                    }
+                    else if (scroll_top <= (pos.top - 10) &&
+                        $fixed_item.hasClass('fixed')) {
+                        $fixed_item.removeClass('fixed');
+                    }
+                });
+
+                $(window).trigger('scroll.sl');
+            });
+        };
+    </script>
+{% endblock %}
+
+
+{# Footer links (left side) #}
+{% block footer_links %}
+{% endblock %}
+
+{# Additional header content like notifications or language switcher #}
+{% block header_content %}
+{% endblock %}
+
+{# Footer branding name (center) #}
+{% block footer_branding %}
+{% endblock %}
+
+
+{# Footer copyright (right side) #}
+{% block copyright %}
+    {% now "Y" as current_year %}
+    Copyright &copy; 2018{% if current_year != "2018" %} - {{ current_year }}{% endif %}
+{% endblock %}

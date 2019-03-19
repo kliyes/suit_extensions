@@ -1,0 +1,32 @@
+{% extends "change_form.html" %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
+{% load url from suit_compat %}
+{% load suit_tags suit_menu_compat %}
+
+{% block breadcrumbs %}
+    {% if 'GENERATE_BREADCRUMBS_FROM_MENU'|suit_conf %}
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+                <span class="divider">&raquo;</span>
+            </li>
+            {% get_menu_compat request as app_list %}
+            {% with app_list|dictsortreversed:"is_active"|first as active_app %}
+                <li>
+                    <a href="{{ active_app.url }}">{{ active_app.label|capfirst|escape }}</a>
+                    <span class="divider">&raquo;</span>
+                </li>
+                {% with active_app.models|dictsortreversed:"is_active"|first as active_model %}
+                    <li>
+                        <a href="{{ active_model.url }}">{{ active_model.label|capfirst|escape }}</a>
+                        <span class="divider">&raquo;</span>
+                    </li>
+                {% endwith %}
+            {% endwith %}
+            <li class=active>{% block breadcrumbs_last %}{% endblock %}</li>
+        </ul>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}

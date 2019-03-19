@@ -1,0 +1,7 @@
+{% extends "change_list.html" %}
+{% load i18n admin_urls %}
+
+{% block object-tools-items %}
+    <a class="btn" href="{% url opts|admin_urlname:'export' %}{{cl.get_query_string}}" class="export_link">{% trans "Export" %}</a>
+    {{ block.super }}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "admin/change_list.html" %}
+{% load i18n suit_tags suit_menu_compat %}
+{% load url from suit_compat %}
+
+{% block breadcrumbs %}
+    {% if 'GENERATE_BREADCRUMBS_FROM_MENU'|suit_conf %}
+        <ul class="breadcrumb">
+            <li>
+                <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+                <span class="divider">&raquo;</span>
+            </li>
+            {% get_menu_compat request as app_list %}
+            {% with app_list|dictsortreversed:"is_active"|first as active_app %}
+                {% with active_app.models|length as models_count %}
+                    {% if models_count == 0 %}
+                        {{ active_app.label|capfirst|escape }}
+                    {% else %}
+                        <li>
+                            <a href="{{ active_app.url }}">{{ active_app.label|capfirst|escape }}</a>
+                            <span class="divider">&raquo;</span>
+                        </li>
+                        {% with active_app.models|dictsortreversed:"is_active"|first as active_model %}
+                            <li class="active">{{ active_model.label|capfirst|escape }}</li>
+                        {% endwith %}
+                    {% endif %}
+                {% endwith %}
+            {% endwith %}
+        </ul>
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
