@@ -18,6 +18,9 @@ setup(
     url='https://github.com/kliyes/suit_extensions',
     author='Jing Yang',
     author_email='tom@kliyes.com',
+    install_requires=[
+        'django-suit==0.2.26'
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
