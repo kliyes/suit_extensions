@@ -33,9 +33,9 @@ class OperationModelAdminMixin(object):
             edit_link=edit_link, delete_link=delete_link
         )
         return mark_safe(operations)
-    get_operations.short_description = operation_text
 
     def get_list_display(self, request):
+        self.get_operations.short_description = self.operation_text
         list_display = super(OperationModelAdminMixin, self).get_list_display(request)
         list_display += ("get_operations",)
         return list_display
