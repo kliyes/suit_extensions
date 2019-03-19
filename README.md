@@ -78,7 +78,6 @@ from suit_extensions.mixins import OperationModelAdminMixin
 class ExampleAdmin(OperationModelAdminMixin, admin.ModelAdmin):
     edit_text = "编辑"
     delete_text = "删除"
-    operation_text = "操作"
 ```
 
 ### datepicker/timepicker
