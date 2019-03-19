@@ -68,7 +68,7 @@ admin.site.register(UserModel, MyUserAdmin)
 
 #### OperationModelAdminMixin
 
-在列表页面每一项最后增加一个操作列，包括编辑和删除按钮：
+在列表页面每一项最后增加一个操作列，默认包括修改和删除按钮：
 
 ```python
 from suit_extensions.mixins import OperationModelAdminMixin
@@ -76,9 +76,10 @@ from suit_extensions.mixins import OperationModelAdminMixin
 
 @admin.register(ExampleModel)
 class ExampleAdmin(OperationModelAdminMixin, admin.ModelAdmin):
-    edit_text = "编辑"
-    delete_text = "删除"
+    pass
 ```
+
+也可修改`operations_list`属性添加自定义操作
 
 ### datepicker/timepicker
 

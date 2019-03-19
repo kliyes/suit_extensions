@@ -38,6 +38,8 @@ suit_extensions是一个用于扩展及优化\ `django-suit <https://github.com/
 admin class
 ~~~~~~~~~~~
 
+####ExtensionModelAdminMixin
+
 同时继承\ ``ExtensionModelAdminMixin``\ 和\ ``ModelAdmin``
 
 .. code:: python
@@ -68,6 +70,22 @@ admin class
 
    admin.site.unregister(UserModel)
    admin.site.register(UserModel, MyUserAdmin)
+
+OperationModelAdminMixin
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+在列表页面每一项最后增加一个操作列，默认包括修改和删除按钮：
+
+.. code:: python
+
+   from suit_extensions.mixins import OperationModelAdminMixin
+
+
+   @admin.register(ExampleModel)
+   class ExampleAdmin(OperationModelAdminMixin, admin.ModelAdmin):
+       pass
+
+也可修改\ ``operations_list``\ 属性添加自定义操作
 
 datepicker/timepicker
 ~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +122,9 @@ datepicker/timepicker
            model = UserModel
            fields = "__all__"
            widgets = {
-               "last_login": DateTimePickerWidget(),
+               "last_login": DateTimePickerWidget(
+                   datepicker_options={"orientation": "top"}
+               ),
                "date_joined": DateTimePickerWidget()
            }
 

@@ -16,26 +16,45 @@ class ExtensionModelAdminMixin(object):
 
 class OperationModelAdminMixin(object):
     list_display_links = None
-    edit_text = _("Change")
-    delete_text = _("Delete")
-    operation_text = _("Operations")
+    operations_list = ("get_change_operation", "get_delete_operation")
+
+    def get_change_operation(self, obj):
+        return """<a href="{change_url}">{change_text}</a>""".format(
+            change_url=reverse(
+                "admin:{app_label}_{model_name}_change".format(
+                    app_label=obj._meta.app_label,
+                    model_name=obj._meta.model_name
+                ),
+                args=(obj.pk,)
+            ),
+            change_text=_("Change")
+        )
+
+    def get_delete_operation(self, obj):
+        return """<a href="{delete_url}" class="text-error">{delete_text}</a>""".format(
+            delete_url=reverse(
+                "admin:{app_label}_{model_name}_delete".format(
+                    app_label=obj._meta.app_label,
+                    model_name=obj._meta.model_name
+                ),
+                args=(obj.pk,)
+            ),
+            delete_text=_("Delete")
+        )
+
+    def get_operations_list(self):
+        return self.operations_list
 
     def get_operations(self, obj):
-        edit_link = """<a href="{edit_url}">{edit_text}</a>""".format(
-            edit_url=reverse("admin:auth_user_change", args=(obj.pk,)),
-            edit_text=self.edit_text
-        )
-        delete_link = """<a href="{delete_url}" class="text-error">{delete_text}</a>""".format(
-            delete_url=reverse("admin:auth_user_delete", args=(obj.pk,)),
-            delete_text=self.delete_text
-        )
-        operations = "{edit_link}&nbsp&nbsp&nbsp&nbsp{delete_link}".format(
-            edit_link=edit_link, delete_link=delete_link
-        )
-        return mark_safe(operations)
+        operations = []
+        for operation in self.get_operations_list():
+            operation_func = getattr(self, operation, None)
+            if operation_func:
+                operations.append(operation_func(obj))
+        return mark_safe("&nbsp&nbsp&nbsp&nbsp".join(operations))
+    get_operations.short_description = _("Operations")
 
     def get_list_display(self, request):
-        self.get_operations.short_description = self.operation_text
         list_display = super(OperationModelAdminMixin, self).get_list_display(request)
         list_display += ("get_operations",)
         return list_display
