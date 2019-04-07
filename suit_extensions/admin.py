@@ -10,11 +10,11 @@ from .mixins import ExtensionModelAdminMixin
 UserModel = get_user_model()
 
 
-class ExtendedUserAdmin(BaseUserAdmin, ExtensionModelAdminMixin):
+class ExtendedUserAdmin(ExtensionModelAdminMixin, BaseUserAdmin):
     pass
 
 
-class ExtendedGroupAdmin(BaseGroupAdmin, ExtensionModelAdminMixin):
+class ExtendedGroupAdmin(ExtensionModelAdminMixin, BaseGroupAdmin):
     pass
 
 
