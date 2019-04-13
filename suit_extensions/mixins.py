@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -12,6 +13,10 @@ class ExtensionModelAdminMixin(object):
     delete_selected_confirmation_template = "delete_selected_confirmation.html"
     object_history_template = "object_history.html"
     actions = [delete_selected]
+
+
+class ExtensionModelAdmin(ExtensionModelAdminMixin, admin.ModelAdmin):
+    pass
 
 
 class OperationModelAdminMixin(object):
@@ -58,3 +63,7 @@ class OperationModelAdminMixin(object):
         list_display = super(OperationModelAdminMixin, self).get_list_display(request)
         list_display += ("get_operations",)
         return list_display
+
+
+class OperationModelAdmin(OperationModelAdminMixin, admin.ModelAdmin):
+    pass
