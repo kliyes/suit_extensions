@@ -13,13 +13,13 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     license='BSD License',
-    description='Extensions for django-suit@v0.2.26',
+    description='Extensions for django-suit@v0.2.28',
     long_description=README,
     url='https://github.com/kliyes/suit_extensions',
     author='Jing Yang',
     author_email='tom@kliyes.com',
     install_requires=[
-        'django-suit==0.2.26'
+        'django-suit>=0.2.26'
     ],
     classifiers=[
         'Environment :: Web Environment',

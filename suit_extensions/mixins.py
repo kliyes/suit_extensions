@@ -16,7 +16,7 @@ class ExtensionModelAdminMixin(object):
 
 
 class ExtensionModelAdmin(ExtensionModelAdminMixin, admin.ModelAdmin):
-    pass
+    actions = [delete_selected]
 
 
 class OperationModelAdminMixin(object):
