@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import GroupAdmin
 from django.contrib.auth.models import Group
 
 from .mixins import ExtensionModelAdminMixin
@@ -10,11 +10,11 @@ from .mixins import ExtensionModelAdminMixin
 UserModel = get_user_model()
 
 
-class ExtendedUserAdmin(ExtensionModelAdminMixin, BaseUserAdmin):
+class ExtendedUserAdmin(ExtensionModelAdminMixin, UserAdmin):
     pass
 
 
-class ExtendedGroupAdmin(ExtensionModelAdminMixin, BaseGroupAdmin):
+class ExtendedGroupAdmin(ExtensionModelAdminMixin, GroupAdmin):
     pass
 
 

@@ -14,7 +14,10 @@ class ExtensionModelAdminMixin(object):
     delete_confirmation_template = "delete_confirmation.html"
     delete_selected_confirmation_template = "delete_selected_confirmation.html"
     object_history_template = "object_history.html"
-    actions = [delete_selected]
+
+    def __init__(self, *args, **kwargs):
+        super(ExtensionModelAdminMixin, self).__init__(*args, **kwargs)
+        self.admin_site.add_action(delete_selected)
 
 
 class ExtensionModelAdmin(ExtensionModelAdminMixin, admin.ModelAdmin):
