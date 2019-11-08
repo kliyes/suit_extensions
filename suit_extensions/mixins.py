@@ -1,9 +1,11 @@
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin.actions import delete_selected
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
-from .actions import delete_selected
+
+delete_selected.short_description = _("Delete selected items")
 
 
 class ExtensionModelAdminMixin(object):
@@ -16,7 +18,7 @@ class ExtensionModelAdminMixin(object):
 
 
 class ExtensionModelAdmin(ExtensionModelAdminMixin, admin.ModelAdmin):
-    actions = [delete_selected]
+    pass
 
 
 class OperationModelAdminMixin(object):
